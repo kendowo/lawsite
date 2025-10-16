@@ -1,1 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kowalski Wojciech VT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --horse-blood: #5A0D0D;
+      --light-cream: #F8F3E6;
+      --dark-gray: #333;
+    }
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--light-cream);
+      color: var(--dark-gray);
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: var(--horse-blood);
+      color: white;
+      padding: 1.5rem 2rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .hero h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--horse-blood);
+      margin-bottom: 1rem;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .service-card {
+      background: white;
+      padding: 1.5rem;
+      border-left: 4px solid var(--horse-blood);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .service-card h3 {
+      color: var(--horse-blood);
+      margin-bottom: 0.75rem;
+      font-size: 1.3rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--horse-blood);
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(90, 13, 13, 0.2);
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Kowalski Wojciech VT</h1>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2>Excellence in Legal Representation</h2>
+      <p>A distinguished law firm specializing in complex legal matters with an international dimension, particularly in the context of investigations conducted in Poland.</p>
+    </section>
+
+    <section class="services">
+      <div class="service-card">
+        <h3>International Legal Counsel</h3>
+        <p>Providing strategic advice to clients involved in cross-border legal proceedings and regulatory inquiries.</p>
+      </div>
+      <div class="service-card">
+        <h3>Criminal Defense & Investigations</h3>
+        <p>Robust representation for individuals and entities under investigation by Polish and international authorities.</p>
+      </div>
+      <div class="service-card">
+        <h3>Confidential Client Advocacy</h3>
+        <p>Acting as trusted legal intermediary, ensuring discretion and precision in sensitive communications.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Kowalski Wojciech VT Law Firm. All rights reserved.
+  </footer>
+
+</body>
+</html>
