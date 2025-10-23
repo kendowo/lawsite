@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CBŚP PRESS RELEASE</title>
+  <style>
     :root {
       --ocean-blue: #0077be;
       --light-bg: #f8fcff;
@@ -133,16 +137,6 @@
       margin-top: 0.5rem;
     }
 
-    /* Footer Disclaimer */
-    .disclaimer {
-      margin-top: 3rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid #ddd;
-      font-size: 0.9rem;
-      color: #b00000;
-      text-align: center;
-    }
-
     @media (max-width: 600px) {
       body { padding: 1rem; }
       .container { padding: 1.5rem; }
@@ -166,13 +160,13 @@
       <h3>Suspects Under Active Investigation</h3>
       <p><strong>(1) William Jackson</strong><br>
          Nationality: Canadian<br>
-         Last known address: 223 Sauer Crescent, Saskatoon, SK S7S 1L9,, Canada</p>
-      EMAIL: doctorwilliamz372@gmail.com</p>
+         Last known address: 223 Sauer Crescent, Saskatoon, SK S7S 1L9, Canada<br>
+         EMAIL: doctorwilliamz372@gmail.com</p>
       <p><strong>Accomplice: Annika Baack</strong><br>
          Nationality: German<br>
-         Last known address: Schulberg 2 a 51377 Leverkusen, Germany</p>
-      EMAIL: Annif555@googlemail.com</p>
-      PHONE NUMBER: +491748231122</p>
+         Last known address: Schulberg 2a, 51377 Leverkusen, Germany<br>
+         EMAIL: Annif555@googlemail.com<br>
+         PHONE NUMBER: +491748231122</p>
       <p><em>⚠️ Note: These individuals are presumed innocent until proven guilty in a court of law.</em></p>
     </div>
 
@@ -207,12 +201,6 @@
         <p class="legal-source">Source: Consolidated text of the Polish Criminal Code, Dz.U. 2024</p>
       </blockquote>
     </div>
-
-    <div class="disclaimer">
-      <em>— EDUCATIONAL DEMO ONLY —<br>
-      This is a fictional simulation for teaching web development and legal awareness.<br>
-      No real individuals are named. No actual investigation is referenced.</em>
-    </div>
   </div>
 
   <script>
@@ -225,8 +213,8 @@
       this.style.boxShadow = '0 0 15px rgba(139, 0, 0, 0.6)';
     });
 
-    // Countdown Timer: 1 day + 18 hours = 42 hours
-    let totalSeconds = 42 * 60 * 60; // 42 hours in seconds
+    // Countdown Timer: 42 hours
+    let totalSeconds = 42 * 60 * 60;
 
     function updateCountdown() {
       if (totalSeconds <= 0) {
@@ -234,21 +222,18 @@
         return;
       }
 
-      const days = Math.floor(totalSeconds / (24 * 3600));
-      const hours = Math.floor((totalSeconds % (24 * 3600)) / 3600);
+      const hours = Math.floor(totalSeconds / 3600);
       const minutes = Math.floor((totalSeconds % 3600) / 60);
       const seconds = totalSeconds % 60;
 
-      // Format as HH:MM:SS (since we only have 42 hours, days not shown)
       const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
       document.getElementById('countdown').textContent = display;
 
       totalSeconds--;
     }
 
-    // Update every second
     setInterval(updateCountdown, 1000);
-    updateCountdown(); // initial call
+    updateCountdown();
   </script>
 </body>
 </html>
