@@ -1,122 +1,254 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kowalski Wojciech VT</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-  <style>
     :root {
-      --horse-blood: #5A0D0D;
-      --light-cream: #F8F3E6;
-      --dark-gray: #333;
+      --ocean-blue: #0077be;
+      --light-bg: #f8fcff;
+      --text-dark: #000;
+      --red-glow: #ff0000;
     }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
-      font-family: 'Roboto', sans-serif;
-      background-color: var(--light-cream);
-      color: var(--dark-gray);
-      line-height: 1.6;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.7;
+      color: var(--text-dark);
+      background-color: #ffffff;
+      padding: 2rem;
     }
-
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--light-bg);
+      padding: 2.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
     header {
-      background-color: var(--horse-blood);
-      color: white;
-      padding: 1.5rem 2rem;
       text-align: center;
+      margin-bottom: 2.5rem;
+      border-bottom: 2px solid var(--ocean-blue);
+      padding-bottom: 1.5rem;
     }
-
-    header h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      font-weight: 700;
-    }
-
-    main {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 1.5rem;
-    }
-
-    .hero {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .hero h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      color: var(--horse-blood);
+    h1 {
+      font-size: 2.4rem;
+      color: var(--ocean-blue);
       margin-bottom: 1rem;
     }
-
-    .services {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
+    .cbsp-desc {
+      font-size: 1.1rem;
+      color: #333;
     }
 
-    .service-card {
-      background: white;
+    /* Red Glowing Button */
+    .reveal-btn {
+      background: var(--red-glow);
+      color: white;
+      border: none;
+      padding: 1.1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 2rem 0;
+      cursor: pointer;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      display: block;
+      width: 100%;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .reveal-btn:hover {
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.95);
+      transform: scale(1.02);
+    }
+
+    .suspects-list {
+      background: #fff0f0;
+      border: 1px solid #ffcccc;
       padding: 1.5rem;
-      border-left: 4px solid var(--horse-blood);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin: 1.5rem 0;
+      border-radius: 8px;
+      display: none;
+    }
+    .suspects-list.show {
+      display: block;
+    }
+    h3 {
+      color: var(--red-glow);
+      margin: 1rem 0 0.8rem;
     }
 
-    .service-card h3 {
-      color: var(--horse-blood);
-      margin-bottom: 0.75rem;
-      font-size: 1.3rem;
-    }
-
-    footer {
+    /* Countdown Timer */
+    .countdown-section {
       text-align: center;
-      padding: 2rem;
-      color: var(--horse-blood);
-      font-size: 0.9rem;
-      border-top: 1px solid rgba(90, 13, 13, 0.2);
+      margin: 2.5rem 0;
+      padding: 1.5rem;
+      background: #fff9e6;
+      border: 1px solid #ffd966;
+      border-radius: 8px;
+    }
+    .countdown-title {
+      font-weight: bold;
+      font-size: 1.3rem;
+      color: #b00000;
+      margin-bottom: 1rem;
+    }
+    #countdown {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--ocean-blue);
+    }
+
+    /* Legal Section */
+    .legal-section {
       margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 2px dashed #ccc;
+    }
+    h2 {
+      color: var(--ocean-blue);
+      margin-bottom: 1.2rem;
+      font-size: 1.8rem;
+    }
+    blockquote {
+      font-style: italic;
+      padding: 1.5rem;
+      background: #f0f8ff;
+      border-left: 4px solid var(--ocean-blue);
+      margin: 1.5rem 0;
+      line-height: 1.8;
+    }
+    blockquote p {
+      margin-bottom: 1rem;
+    }
+    .legal-source {
+      font-weight: bold;
+      color: var(--ocean-blue);
+      margin-top: 0.5rem;
+    }
+
+    /* Footer Disclaimer */
+    .disclaimer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #ddd;
+      font-size: 0.9rem;
+      color: #b00000;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 1rem; }
+      .container { padding: 1.5rem; }
+      h1 { font-size: 2rem; }
+      #countdown { font-size: 1.5rem; }
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <h1>CBŚP PRESS RELEASE</h1>
+      <p class="cbsp-desc">Centralne Biuro Śledcze Policji</p>
+    </header>
 
-  <header>
-    <h1>Kowalski Wojciech VT</h1>
-  </header>
+    <button class="reveal-btn" id="revealButton">
+      CLICK TO REVEAL THE NAMES OF DRUG TRAFFICKERS UNDER INVESTIGATION
+    </button>
 
-  <main>
-    <section class="hero">
-      <h2>Excellence in Legal Representation</h2>
-      <p>A distinguished law firm specializing in complex legal matters with an international dimension, particularly in the context of investigations conducted in Poland.</p>
-    </section>
+    <div class="suspects-list" id="suspectsList">
+      <h3>Suspects Under Active Investigation</h3>
+      <p><strong>(1) William Jackson</strong><br>
+         Nationality: Canadian<br>
+         Last known address: 223 Sauer Crescent, Saskatoon, SK S7S 1L9,, Canada</p>
+      EMAIL: doctorwilliamz372@gmail.com</p>
+      <p><strong>Accomplice: Annika Baack</strong><br>
+         Nationality: German<br>
+         Last known address: Schulberg 2 a 51377 Leverkusen, Germany</p>
+      EMAIL: Annif555@googlemail.com</p>
+      PHONE NUMBER: +491748231122</p>
+      <p><em>⚠️ Note: These individuals are presumed innocent until proven guilty in a court of law.</em></p>
+    </div>
 
-    <section class="services">
-      <div class="service-card">
-        <h3>International Legal Counsel</h3>
-        <p>Providing strategic advice to clients involved in cross-border legal proceedings and regulatory inquiries.</p>
-      </div>
-      <div class="service-card">
-        <h3>Criminal Defense & Investigations</h3>
-        <p>Robust representation for individuals and entities under investigation by Polish and international authorities.</p>
-      </div>
-      <div class="service-card">
-        <h3>Confidential Client Advocacy</h3>
-        <p>Acting as trusted legal intermediary, ensuring discretion and precision in sensitive communications.</p>
-      </div>
-    </section>
-  </main>
+    <div class="countdown-section">
+      <div class="countdown-title">TIME LEFT FOR POSSIBLE APPEAL</div>
+      <div id="countdown">42:00:00</div>
+    </div>
 
-  <footer>
-    &copy; 2025 Kowalski Wojciech VT Law Firm. All rights reserved.
-  </footer>
+    <div class="legal-section">
+      <h2>ACCORDING TO THE POLISH LAW THIS IS THE PUNISHMENT WHEN A SUSPECT IS FOUND GUILTY</h2>
+      <blockquote>
+        <p><strong>Legal Basis: Article 165 of the Polish Criminal Code</strong><br>
+        (<em>Kodeks karny</em>, Journal of Laws <em>Dz.U. 1997, No. 88, item 553</em>, as amended)</p>
 
+        <p><strong>Article 165 §1</strong><br>
+        “Whoever unlawfully produces, processes, imports, exports, transports, dispatches, purchases, sells, stores, or possesses narcotic drugs or psychotropic substances for the purpose of distribution shall be subject to imprisonment for a term of not less than 3 years.”</p>
+
+        <p>This provision criminalizes any act related to the handling of controlled substances when intended for distribution—not merely personal use. The threshold of “not less than 3 years” reflects the seriousness with which Polish law treats drug trafficking.</p>
+
+        <p><strong>Article 165 §2</strong><br>
+        The penalty is significantly aggravated—<strong>imprisonment for not less than 5 years, up to life imprisonment</strong>—if the offense involves any of the following circumstances:</p>
+        <ul>
+          <li>The act concerns a <strong>significant quantity</strong> of drugs;</li>
+          <li>It is committed as part of an <strong>organized criminal group</strong> or criminal association;</li>
+          <li>It involves <strong>minors</strong> (e.g., selling to persons under 18, using them in trafficking, or committing the offense in their presence);</li>
+          <li>The offense is committed <strong>near schools, educational facilities, or places intended for minors</strong>;</li>
+          <li>Violence, threats, or abuse of a position of authority is used.</li>
+        </ul>
+
+        <p><strong>Article 165 §3</strong><br>
+        Criminal liability also extends to <strong>attempted offenses</strong> and <strong>preparatory acts</strong> (e.g., acquiring materials or arranging logistics) when directed toward large-scale or aggravated trafficking.</p>
+        <p class="legal-source">Source: Consolidated text of the Polish Criminal Code, Dz.U. 2024</p>
+      </blockquote>
+    </div>
+
+    <div class="disclaimer">
+      <em>— EDUCATIONAL DEMO ONLY —<br>
+      This is a fictional simulation for teaching web development and legal awareness.<br>
+      No real individuals are named. No actual investigation is referenced.</em>
+    </div>
+  </div>
+
+  <script>
+    // Reveal suspects
+    document.getElementById('revealButton').addEventListener('click', function() {
+      document.getElementById('suspectsList').classList.add('show');
+      this.disabled = true;
+      this.textContent = 'NAMES REVEALED';
+      this.style.backgroundColor = '#8b0000';
+      this.style.boxShadow = '0 0 15px rgba(139, 0, 0, 0.6)';
+    });
+
+    // Countdown Timer: 1 day + 18 hours = 42 hours
+    let totalSeconds = 42 * 60 * 60; // 42 hours in seconds
+
+    function updateCountdown() {
+      if (totalSeconds <= 0) {
+        document.getElementById('countdown').textContent = "00:00:00";
+        return;
+      }
+
+      const days = Math.floor(totalSeconds / (24 * 3600));
+      const hours = Math.floor((totalSeconds % (24 * 3600)) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      // Format as HH:MM:SS (since we only have 42 hours, days not shown)
+      const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      document.getElementById('countdown').textContent = display;
+
+      totalSeconds--;
+    }
+
+    // Update every second
+    setInterval(updateCountdown, 1000);
+    updateCountdown(); // initial call
+  </script>
 </body>
 </html>
