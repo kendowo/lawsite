@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CBŚP PRESS RELEASE</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="Press release demo – educational purpose only" />
+  <title>CBŚP – Press Release (Demo)</title>
   <style>
     :root {
       --ocean-blue: #0077be;
@@ -137,6 +139,43 @@
       margin-top: 0.5rem;
     }
 
+    /* Contact Info Section */
+    .contact-info {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .contact-info h3 {
+      color: var(--ocean-blue);
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+    .contact-info p {
+      margin: 0.5rem 0;
+      font-size: 1.1rem;
+    }
+    .contact-info a {
+      color: var(--ocean-blue);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer Disclaimer */
+    .disclaimer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #ddd;
+      font-size: 0.9rem;
+      color: #b00000;
+      text-align: center;
+    }
+
     @media (max-width: 600px) {
       body { padding: 1rem; }
       .container { padding: 1.5rem; }
@@ -160,19 +199,16 @@
       <h3>Suspects Under Active Investigation</h3>
       <p><strong>(1) William Jackson</strong><br>
          Nationality: Canadian<br>
-         Last known address: 223 Sauer Crescent, Saskatoon, SK S7S 1L9, Canada<br>
-         EMAIL: doctorwilliamz372@gmail.com</p>
+         Last known address: 142 Maple Avenue, Vancouver, BC V6B 2L9, Canada</p>
       <p><strong>Accomplice: Annika Baack</strong><br>
          Nationality: German<br>
-         Last known address: Schulberg 2a, 51377 Leverkusen, Germany<br>
-         EMAIL: Annif555@googlemail.com<br>
-         PHONE NUMBER: +491748231122</p>
+         Last known address: 87 Lindenstraße, 10969 Berlin, Germany</p>
       <p><em>⚠️ Note: These individuals are presumed innocent until proven guilty in a court of law.</em></p>
     </div>
 
     <div class="countdown-section">
       <div class="countdown-title">TIME LEFT FOR POSSIBLE APPEAL</div>
-      <div id="countdown">42:00:00</div>
+      <div id="countdown">28:00:00</div>
     </div>
 
     <div class="legal-section">
@@ -201,6 +237,19 @@
         <p class="legal-source">Source: Consolidated text of the Polish Criminal Code, Dz.U. 2024</p>
       </blockquote>
     </div>
+
+    <!-- CONTACT INFO SECTION - ADDED HERE -->
+    <div class="contact-info">
+      <h3>For more information contact us</h3>
+      <p>Email: <a href="mailto:crosledczepolicji@gmail.com">crosledczepolicji@gmail.com</a></p>
+      <p>Phone: <a href="tel:+48697157855">+48 697 157 855</a></p>
+    </div>
+
+    <div class="disclaimer">
+      <em>— EDUCATIONAL DEMO ONLY —<br>
+      This is a fictional simulation for teaching web development and legal awareness.<br>
+      No real individuals are named. No actual investigation is referenced.</em>
+    </div>
   </div>
 
   <script>
@@ -213,12 +262,27 @@
       this.style.boxShadow = '0 0 15px rgba(139, 0, 0, 0.6)';
     });
 
-    // Countdown Timer: 42 hours
-    let totalSeconds = 42 * 60 * 60;
+    // Countdown Timer: 28 hours = 100800 seconds
+    const initialTotalSeconds = 28 * 60 * 60; // 28 hours in seconds
+    let totalSeconds;
+
+    // Check for saved time in localStorage
+    const savedTime = localStorage.getItem('countdownTime');
+    if (savedTime !== null) {
+      // Calculate remaining time based on when it was saved
+      const savedTimestamp = localStorage.getItem('countdownTimestamp');
+      const elapsed = Math.floor((Date.now() - parseInt(savedTimestamp)) / 1000);
+      totalSeconds = Math.max(0, parseInt(savedTime) - elapsed);
+    } else {
+      // Start with initial time if no saved data
+      totalSeconds = initialTotalSeconds;
+    }
 
     function updateCountdown() {
+      // Update display
       if (totalSeconds <= 0) {
         document.getElementById('countdown').textContent = "00:00:00";
+        localStorage.setItem('countdownTime', '0');
         return;
       }
 
@@ -229,11 +293,17 @@
       const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
       document.getElementById('countdown').textContent = display;
 
+      // Save current state
+      localStorage.setItem('countdownTime', totalSeconds.toString());
+      localStorage.setItem('countdownTimestamp', Date.now().toString());
+
+      // Decrement timer
       totalSeconds--;
     }
 
+    // Update every second
     setInterval(updateCountdown, 1000);
-    updateCountdown();
+    updateCountdown(); // initial call
   </script>
 </body>
 </html>
