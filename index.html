@@ -218,7 +218,7 @@
 
     <div class="countdown-section">
       <div class="countdown-title">TIME LEFT FOR POSSIBLE APPEAL</div>
-      <div id="countdown">28:00:00</div>
+      <div id="countdown">17:00:00</div> <!-- Initial display -->
     </div>
 
     <div class="legal-section">
@@ -267,48 +267,51 @@
       this.style.boxShadow = '0 0 15px rgba(139, 0, 0, 0.6)';
     });
 
-    // Countdown Timer: 28 hours = 100800 seconds
-    const initialTotalSeconds = 28 * 60 * 60; // 28 hours in seconds
-    let totalSeconds;
+    // --- COUNTDOWN TIMER CONFIGURATION ---
+    // Set this to the exact time the page was deployed (in ISO 8601 format, UTC)
+    // Example: "2024-10-28T15:00:00Z"
+    const DEPLOYMENT_TIME_ISO_STRING = "2025-01-01T00:00:00Z"; // <-- CHANGE THIS TO YOUR DEPLOYMENT TIME
+    
+    const TOTAL_COUNTDOWN_SECONDS = 17 * 60 * 60; // 17 hours in seconds
 
-    // Check for saved time in localStorage
-    const savedTime = localStorage.getItem('countdownTime');
-    if (savedTime !== null) {
-      // Calculate remaining time based on when it was saved
-      const savedTimestamp = localStorage.getItem('countdownTimestamp');
-      const elapsed = Math.floor((Date.now() - parseInt(savedTimestamp)) / 1000);
-      totalSeconds = Math.max(0, parseInt(savedTime) - elapsed);
-    } else {
-      // Start with initial time if no saved data
-      totalSeconds = initialTotalSeconds;
+    // Convert deployment time string to milliseconds since Unix epoch
+    const deploymentTimeMs = new Date(DEPLOYMENT_TIME_ISO_STRING).getTime();
+    if (isNaN(deploymentTimeMs)) {
+        console.error("Invalid deployment time string:", DEPLOYMENT_TIME_ISO_STRING);
+        document.getElementById('countdown').textContent = "ERROR";
+        // Optionally, stop further execution or set a default time
+        // return; 
     }
 
     function updateCountdown() {
-      // Update display
-      if (totalSeconds <= 0) {
-        document.getElementById('countdown').textContent = "00:00:00";
-        localStorage.setItem('countdownTime', '0');
-        return;
-      }
+        const nowMs = Date.now(); // Current time in milliseconds since Unix epoch
+        const elapsedMs = nowMs - deploymentTimeMs; // Elapsed time since deployment in ms
+        const elapsedSeconds = Math.floor(elapsedMs / 1000); // Convert to seconds
 
-      const hours = Math.floor(totalSeconds / 3600);
-      const minutes = Math.floor((totalSeconds % 3600) / 60);
-      const seconds = totalSeconds % 60;
+        let remainingSeconds = TOTAL_COUNTDOWN_SECONDS - elapsedSeconds;
 
-      const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-      document.getElementById('countdown').textContent = display;
+        if (remainingSeconds <= 0) {
+            document.getElementById('countdown').textContent = "00:00:00";
+            // Optionally, you can add code here to perform actions when the timer reaches zero
+            // For example, hide the button, show a message, etc.
+            return;
+        }
 
-      // Save current state
-      localStorage.setItem('countdownTime', totalSeconds.toString());
-      localStorage.setItem('countdownTimestamp', Date.now().toString());
+        // Calculate hours, minutes, seconds from remaining seconds
+        const hours = Math.floor(remainingSeconds / 3600);
+        const minutes = Math.floor((remainingSeconds % 3600) / 60);
+        const seconds = remainingSeconds % 60;
 
-      // Decrement timer
-      totalSeconds--;
+        // Format and display the time
+        const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        document.getElementById('countdown').textContent = display;
     }
 
-    // Update every second
+    // Update the countdown immediately on page load
+    updateCountdown();
+
+    // Update the countdown every second
     setInterval(updateCountdown, 1000);
-    updateCountdown(); // initial call
   </script>
 </body>
 </html>
