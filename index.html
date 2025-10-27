@@ -268,34 +268,30 @@
     });
 
     // --- COUNTDOWN TIMER CONFIGURATION ---
-    // Set this to the exact time the page was deployed (in ISO 8601 format, UTC)
+    // Set this to the exact time the countdown should END (in ISO 8601 format, UTC)
     // Example: "2024-10-28T15:00:00Z"
-    const DEPLOYMENT_TIME_ISO_STRING = "2025-01-01T00:00:00Z"; // <-- CHANGE THIS TO YOUR DEPLOYMENT TIME
-    
-    const TOTAL_COUNTDOWN_SECONDS = 17 * 60 * 60; // 17 hours in seconds
+    const COUNTDOWN_END_TIME_ISO_STRING = "2025-01-01T17:00:00Z"; // <-- CHANGE THIS TO YOUR ACTUAL END TIME
 
-    // Convert deployment time string to milliseconds since Unix epoch
-    const deploymentTimeMs = new Date(DEPLOYMENT_TIME_ISO_STRING).getTime();
-    if (isNaN(deploymentTimeMs)) {
-        console.error("Invalid deployment time string:", DEPLOYMENT_TIME_ISO_STRING);
+    // Convert end time string to milliseconds since Unix epoch
+    const endTimeMs = new Date(COUNTDOWN_END_TIME_ISO_STRING).getTime();
+    if (isNaN(endTimeMs)) {
+        console.error("Invalid end time string:", COUNTDOWN_END_TIME_ISO_STRING);
         document.getElementById('countdown').textContent = "ERROR";
-        // Optionally, stop further execution or set a default time
-        // return; 
+        return;
     }
 
     function updateCountdown() {
         const nowMs = Date.now(); // Current time in milliseconds since Unix epoch
-        const elapsedMs = nowMs - deploymentTimeMs; // Elapsed time since deployment in ms
-        const elapsedSeconds = Math.floor(elapsedMs / 1000); // Convert to seconds
+        let remainingMs = endTimeMs - nowMs; // Remaining time in ms
 
-        let remainingSeconds = TOTAL_COUNTDOWN_SECONDS - elapsedSeconds;
-
-        if (remainingSeconds <= 0) {
+        if (remainingMs <= 0) {
             document.getElementById('countdown').textContent = "00:00:00";
             // Optionally, you can add code here to perform actions when the timer reaches zero
-            // For example, hide the button, show a message, etc.
             return;
         }
+
+        // Convert remaining milliseconds to seconds
+        let remainingSeconds = Math.floor(remainingMs / 1000);
 
         // Calculate hours, minutes, seconds from remaining seconds
         const hours = Math.floor(remainingSeconds / 3600);
