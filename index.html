@@ -268,30 +268,36 @@
     });
 
     // --- COUNTDOWN TIMER CONFIGURATION ---
-    // Set this to the exact time the countdown should END (in ISO 8601 format, UTC)
-    // Example: "2024-10-28T15:00:00Z"
-    const COUNTDOWN_END_TIME_ISO_STRING = "2025-01-01T17:00:00Z"; // <-- CHANGE THIS TO YOUR ACTUAL END TIME
+    const TOTAL_COUNTDOWN_SECONDS = 17 * 60 * 60; // 17 hours in seconds
 
-    // Convert end time string to milliseconds since Unix epoch
-    const endTimeMs = new Date(COUNTDOWN_END_TIME_ISO_STRING).getTime();
-    if (isNaN(endTimeMs)) {
-        console.error("Invalid end time string:", COUNTDOWN_END_TIME_ISO_STRING);
-        document.getElementById('countdown').textContent = "ERROR";
-        return;
+    // Check for saved start time in localStorage
+    let startTimeMs = localStorage.getItem('countdownStartTime');
+    if (startTimeMs === null) {
+      // If no saved start time, initialize it to now and save it
+      startTimeMs = Date.now();
+      localStorage.setItem('countdownStartTime', startTimeMs);
+    } else {
+      // Parse the saved start time
+      startTimeMs = parseInt(startTimeMs);
     }
 
-    function updateCountdown() {
-        const nowMs = Date.now(); // Current time in milliseconds since Unix epoch
-        let remainingMs = endTimeMs - nowMs; // Remaining time in ms
+    // Calculate initial elapsed time based on saved start time
+    let elapsedSeconds = Math.floor((Date.now() - startTimeMs) / 1000);
+    let remainingSeconds = Math.max(0, TOTAL_COUNTDOWN_SECONDS - elapsedSeconds); // Ensure it doesn't go below 0
 
-        if (remainingMs <= 0) {
+    // Variable to hold the interval ID so we can clear it later
+    let countdownInterval = null;
+
+    function updateCountdown() {
+        // If timer has already reached zero, clear the interval and stop updating
+        if (remainingSeconds <= 0) {
             document.getElementById('countdown').textContent = "00:00:00";
-            // Optionally, you can add code here to perform actions when the timer reaches zero
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
             return;
         }
-
-        // Convert remaining milliseconds to seconds
-        let remainingSeconds = Math.floor(remainingMs / 1000);
 
         // Calculate hours, minutes, seconds from remaining seconds
         const hours = Math.floor(remainingSeconds / 3600);
@@ -301,13 +307,21 @@
         // Format and display the time
         const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         document.getElementById('countdown').textContent = display;
+
+        // Decrement remaining time
+        remainingSeconds--;
     }
 
     // Update the countdown immediately on page load
     updateCountdown();
 
-    // Update the countdown every second
-    setInterval(updateCountdown, 1000);
+    // Start the countdown interval if time hasn't run out yet
+    if (remainingSeconds > 0) {
+        countdownInterval = setInterval(updateCountdown, 1000);
+    } else {
+        // If time was already up when page loaded, ensure display shows 00:00:00 and interval is cleared
+        document.getElementById('countdown').textContent = "00:00:00";
+    }
   </script>
 </body>
 </html>
