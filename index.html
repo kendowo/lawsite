@@ -110,25 +110,61 @@
       margin: 1rem 0 0.8rem;
     }
 
-    /* Countdown Timer */
-    .countdown-section {
+    /* CASE TRANSFER SECTION - RETRO LOADING BAR */
+    .case-transfer-section {
       text-align: center;
       margin: 2.5rem 0;
+      /* Reverted to original background */
       padding: 1.5rem;
       background: #fff9e6;
       border: 1px solid #ffd966;
       border-radius: 8px;
+      color: var(--text-dark); /* Use original text color */
+      font-family: 'Courier New', Courier, monospace; /* Pixel/retro font */
+      font-size: 1.1rem;
+      line-height: 1.4;
     }
-    .countdown-title {
+    .case-transfer-title {
       font-weight: bold;
       font-size: 1.3rem;
-      color: #b00000;
+      color: #b00000; /* Original red title */
       margin-bottom: 1rem;
     }
-    #countdown {
-      font-size: 2rem;
+    .loading-bar-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .loading-text {
       font-weight: bold;
-      color: var(--ocean-blue);
+      font-size: 1.1rem;
+    }
+    .percentage-display {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    .loading-bar {
+      width: 300px;
+      height: 16px;
+      border: 2px solid #000; /* Adjusted border color */
+      background: #000; /* Adjusted background color */
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.1rem;
+      letter-spacing: 0;
+    }
+    .loading-fill {
+      background: #000; /* Adjusted fill color */
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff; /* Adjusted text color */
+      font-weight: bold;
     }
 
     /* Legal Section */
@@ -190,7 +226,9 @@
       body { padding: 1rem; }
       .container { padding: 1.5rem; }
       h1 { font-size: 2rem; }
-      #countdown { font-size: 1.5rem; }
+      .loading-bar {
+        width: 200px;
+      }
     }
   </style>
 </head>
@@ -216,9 +254,16 @@
       <p><em>⚠️ Note: These individuals are presumed innocent until proven guilty in a court of law.</em></p>
     </div>
 
-    <div class="countdown-section">
-      <div class="countdown-title">TIME LEFT FOR POSSIBLE APPEAL</div>
-      <div id="countdown">01:00:00</div> <!-- Initial display -->
+    <!-- CASE TRANSFER SECTION - RETRO LOADING BAR -->
+    <div class="case-transfer-section">
+      <div class="case-transfer-title">CASE TRANSFERRING TO FBI</div>
+      <div class="loading-bar-container">
+        <div class="loading-text">LOADING...</div>
+        <div class="percentage-display" id="percentageDisplay">0%</div>
+      </div>
+      <div class="loading-bar" id="loadingBar">
+        <div class="loading-fill" id="loadingFill"></div>
+      </div>
     </div>
 
     <div class="legal-section">
@@ -267,61 +312,62 @@
       this.style.boxShadow = '0 0 15px rgba(139, 0, 0, 0.6)';
     });
 
-    // --- COUNTDOWN TIMER CONFIGURATION ---
-    const TOTAL_COUNTDOWN_SECONDS = 1 * 60 * 60; // 1 hour in seconds
+    // --- RETRO LOADING BAR CONFIGURATION ---
+    const TOTAL_DURATION_MS = 25 * 60 * 60 * 1000; // 25 hours in milliseconds
 
     // Check for saved start time in localStorage
-    let startTimeMs = localStorage.getItem('countdownStartTime');
+    let startTimeMs = localStorage.getItem('transferStartTime');
     if (startTimeMs === null) {
       // If no saved start time, initialize it to now and save it
       startTimeMs = Date.now();
-      localStorage.setItem('countdownStartTime', startTimeMs);
+      localStorage.setItem('transferStartTime', startTimeMs);
     } else {
       // Parse the saved start time
-      startTimeMs = parseInt(startTimeMs);
+      startTimeMs = parseInt(startTimeMs, 10);
     }
 
-    // Calculate initial elapsed time based on saved start time
-    let elapsedSeconds = Math.floor((Date.now() - startTimeMs) / 1000);
-    let remainingSeconds = Math.max(0, TOTAL_COUNTDOWN_SECONDS - elapsedSeconds); // Ensure it doesn't go below 0
+    function updateLoadingBar() {
+        const now = Date.now();
+        const elapsed = now - startTimeMs;
+        let currentPercentage = Math.min(100.0, (elapsed / TOTAL_DURATION_MS) * 100.0);
 
-    // Variable to hold the interval ID so we can clear it later
-    let countdownInterval = null;
-
-    function updateCountdown() {
-        // If timer has already reached zero, clear the interval and stop updating
-        if (remainingSeconds <= 0) {
-            document.getElementById('countdown').textContent = "00:00:00";
-            if (countdownInterval) {
-                clearInterval(countdownInterval);
-                countdownInterval = null;
-            }
-            return;
+        // If the process is complete (100%), ensure the display shows 100% and stop further updates
+        if (currentPercentage >= 100) {
+            currentPercentage = 100.0;
+            document.getElementById('percentageDisplay').textContent = '100%';
+            const loadingFill = document.getElementById('loadingFill');
+            loadingFill.innerHTML = '█'.repeat(20);
+            return; // Stop the function
         }
 
-        // Calculate hours, minutes, seconds from remaining seconds
-        const hours = Math.floor(remainingSeconds / 3600);
-        const minutes = Math.floor((remainingSeconds % 3600) / 60);
-        const seconds = remainingSeconds % 60;
+        // Format percentage to 2 decimal places
+        const formattedPercentage = parseFloat(currentPercentage.toFixed(2)).toString();
 
-        // Format and display the time
-        const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-        document.getElementById('countdown').textContent = display;
+        // Update percentage display
+        document.getElementById('percentageDisplay').textContent = formattedPercentage + '%';
 
-        // Decrement remaining time
-        remainingSeconds--;
+        // Calculate how many blocks to fill (bar is 20 blocks wide)
+        const totalBlocks = 20;
+        const filledBlocks = Math.floor((currentPercentage / 100) * totalBlocks);
+        const emptyBlocks = totalBlocks - filledBlocks;
+
+        // Create the bar string: ██... (filled) + ░░... (empty)
+        const filledPart = '█'.repeat(filledBlocks);
+        const emptyPart = '░'.repeat(emptyBlocks);
+
+        // Set the inner HTML of the fill div
+        const loadingFill = document.getElementById('loadingFill');
+        loadingFill.innerHTML = filledPart + emptyPart;
+
+        // Also set the width for visual consistency
+        loadingFill.style.width = `${currentPercentage}%`;
+
+        // Schedule the next update in 1 second
+        setTimeout(updateLoadingBar, 1000);
     }
 
-    // Update the countdown immediately on page load
-    updateCountdown();
-
-    // Start the countdown interval if time hasn't run out yet
-    if (remainingSeconds > 0) {
-        countdownInterval = setInterval(updateCountdown, 1000);
-    } else {
-        // If time was already up when page loaded, ensure display shows 00:00:00 and interval is cleared
-        document.getElementById('countdown').textContent = "00:00:00";
-    }
+    // Start the loading bar when the page loads
+    updateLoadingBar();
   </script>
 </body>
 </html>
