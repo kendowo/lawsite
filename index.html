@@ -110,24 +110,23 @@
       margin: 1rem 0 0.8rem;
     }
 
-    /* CASE TRANSFER SECTION - RETRO LOADING BAR */
+    /* CASE TRANSFER SECTION - STRIPED LOADING BAR */
     .case-transfer-section {
       text-align: center;
       margin: 2.5rem 0;
-      /* Reverted to original background */
       padding: 1.5rem;
-      background: #fff9e6;
+      background: #fff9e6; /* Original light yellow background */
       border: 1px solid #ffd966;
       border-radius: 8px;
-      color: var(--text-dark); /* Use original text color */
-      font-family: 'Courier New', Courier, monospace; /* Pixel/retro font */
+      color: var(--text-dark);
+      font-family: 'Courier New', Courier, monospace;
       font-size: 1.1rem;
       line-height: 1.4;
     }
     .case-transfer-title {
       font-weight: bold;
       font-size: 1.3rem;
-      color: #b00000; /* Original red title */
+      color: #b00000;
       margin-bottom: 1rem;
     }
     .loading-bar-container {
@@ -148,23 +147,20 @@
     .loading-bar {
       width: 300px;
       height: 16px;
-      border: 2px solid #000; /* Adjusted border color */
-      background: #000; /* Adjusted background color */
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 1.1rem;
-      letter-spacing: 0;
+      border: 2px solid #000; /* Black border */
+      background: transparent; /* Transparent background */
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
     }
     .loading-fill {
-      background: #000; /* Adjusted fill color */
       height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff; /* Adjusted text color */
-      font-weight: bold;
+      background: linear-gradient(45deg, #000 25%, transparent 25%, transparent 50%, #000 50%, #000 75%, transparent 75%, transparent);
+      background-size: 10px 10px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      transition: width 0.5s ease-out;
     }
 
     /* Legal Section */
@@ -254,11 +250,11 @@
       <p><em>⚠️ Note: These individuals are presumed innocent until proven guilty in a court of law.</em></p>
     </div>
 
-    <!-- CASE TRANSFER SECTION - RETRO LOADING BAR -->
+    <!-- CASE TRANSFER SECTION - STRIPED LOADING BAR -->
     <div class="case-transfer-section">
       <div class="case-transfer-title">CASE TRANSFERRING TO FBI</div>
       <div class="loading-bar-container">
-        <div class="loading-text">LOADING...</div>
+        <div class="loading-text">PROCESSING...</div>
         <div class="percentage-display" id="percentageDisplay">0%</div>
       </div>
       <div class="loading-bar" id="loadingBar">
@@ -312,7 +308,7 @@
       this.style.boxShadow = '0 0 15px rgba(139, 0, 0, 0.6)';
     });
 
-    // --- RETRO LOADING BAR CONFIGURATION ---
+    // --- STRIPED LOADING BAR CONFIGURATION ---
     const TOTAL_DURATION_MS = 25 * 60 * 60 * 1000; // 25 hours in milliseconds
 
     // Check for saved start time in localStorage
@@ -335,8 +331,7 @@
         if (currentPercentage >= 100) {
             currentPercentage = 100.0;
             document.getElementById('percentageDisplay').textContent = '100%';
-            const loadingFill = document.getElementById('loadingFill');
-            loadingFill.innerHTML = '█'.repeat(20);
+            document.getElementById('loadingFill').style.width = '100%';
             return; // Stop the function
         }
 
@@ -346,21 +341,8 @@
         // Update percentage display
         document.getElementById('percentageDisplay').textContent = formattedPercentage + '%';
 
-        // Calculate how many blocks to fill (bar is 20 blocks wide)
-        const totalBlocks = 20;
-        const filledBlocks = Math.floor((currentPercentage / 100) * totalBlocks);
-        const emptyBlocks = totalBlocks - filledBlocks;
-
-        // Create the bar string: ██... (filled) + ░░... (empty)
-        const filledPart = '█'.repeat(filledBlocks);
-        const emptyPart = '░'.repeat(emptyBlocks);
-
-        // Set the inner HTML of the fill div
-        const loadingFill = document.getElementById('loadingFill');
-        loadingFill.innerHTML = filledPart + emptyPart;
-
-        // Also set the width for visual consistency
-        loadingFill.style.width = `${currentPercentage}%`;
+        // Update the width of the striped fill
+        document.getElementById('loadingFill').style.width = `${currentPercentage}%`;
 
         // Schedule the next update in 1 second
         setTimeout(updateLoadingBar, 1000);
