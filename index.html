@@ -143,6 +143,22 @@
     .percentage-display {
       font-weight: bold;
       font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid transparent;
+      border-top: 2px solid #000;
+      border-right: 2px solid #000;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
     .loading-bar {
       width: 300px;
@@ -255,7 +271,10 @@
       <div class="case-transfer-title">CASE TRANSFERRING TO FBI</div>
       <div class="loading-bar-container">
         <div class="loading-text">PROCESSING...</div>
-        <div class="percentage-display" id="percentageDisplay">0%</div>
+        <div class="percentage-display">
+          <span id="percentageDisplay">0%</span>
+          <div class="spinner"></div>
+        </div>
       </div>
       <div class="loading-bar" id="loadingBar">
         <div class="loading-fill" id="loadingFill"></div>
